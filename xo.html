@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: aquamarine;
+            padding-top: 10px;
+        }
+
+        #jatekter{
+            width: 392px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            box-shadow: 0 0 0 10px;
+            background-color: white;
+        }
+
+        .cella{
+            border: solid 2px black;
+            height: 128px;
+            width: 128px;
+        }
+
+
+    </style>
+    <script>
+        
+        let a = "X";
+        let html = "";
+        let btomb = [];
+        let len = 0;
+
+        function start(){
+            for(let i = 0; i < 3; i++){
+                btomb[i] = [];
+                for(let j = 0; j < 3; j++){
+                    html += "<div id='"+i+"x"+j+"' onclick='rajzol(\""+i+"x"+j+"\");' class='cella'></div>";
+                    btomb[i][j] = "";
+                }
+            }
+
+            document.getElementById("jatekter").innerHTML = html;
+
+        }
+        
+        let vege = false;
+        let nyert = "";
+
+        function rajzol(id){
+            if (!vege){
+            let t = document.getElementById(id).id.split("x");
+            if (document.getElementById(id).innerHTML == ""){
+                document.getElementById(id).innerHTML = "<img src='"+a+".png'>";
+                btomb[t[0]][t[1]] = a;
+                if (a == "X"){
+                    a = "O";
+                }else{
+                    a = "X";
+                }
+                len++;
+            }
+            if (len > 4){
+                let set = new Set();
+                let k = 0;
+                for (let i = 0; i < 3; i++){
+                    for (let j = 0; j < 3; j++){
+                        if (btomb[i][j] != ""){ 
+                            set.add(btomb[i][j]);
+                            k++;
+                        }
+                    }
+                    if (set.size == 1 && k == 3){ 
+                        vege = true;
+                        nyert = Array.from(set)[0];
+                    }
+                    set.clear();
+                    k = 0; 
+                }
+                for (let i = 0; i < 3; i++){
+                    for (let j = 0; j < 3; j++){
+                        if (btomb[j][i] != ""){ 
+                            set.add(btomb[j][i]);
+                            k++;
+                        }
+                    }
+                    if (set.size == 1 && k == 3){ 
+                        vege = true;
+                        nyert = Array.from(set)[0];
+                    }
+                    set.clear();
+                    k = 0;
+                }
+
+                for (let i = 0; i < 3; i++){
+                    if (btomb[i][i] != ""){ 
+                            set.add(btomb[i][i]);
+                            k++;
+                        }
+                }
+                if (set.size == 1 && k == 3){ 
+                        vege = true;
+                        nyert = Array.from(set)[0];
+                    }
+                set.clear();
+                k = 0;
+
+                for (let i = 0; i < 3; i++){
+                    if (btomb[i][2-i] != ""){ 
+                            set.add(btomb[i][2-i]);
+                            k++;
+                        }
+                }
+                if (set.size == 1 && k == 3){ 
+                        vege = true;
+                        nyert = Array.from(set)[0];
+                    }
+                set.clear();
+                k = 0;
+                
+                if (vege){
+                    document.getElementById("eredmeny").innerHTML = nyert + " nyert";
+                }
+                if (len == 9 && !vege){
+                    document.getElementById("eredmeny").innerHTML = "Döntetlen";
+                } 
+            }
+        }
+        console.log(len);
+    }
+
+
+
+    </script>
+</head>
+<body onload="start();">
+    <div id="jatekter">
+        
+    </div>
+    <span id="eredmeny"></span>
+</body>
+</html>
