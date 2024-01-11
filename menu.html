@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="icon" type="image/x-icon" href="src/icon.png">
+    <style>
+
+        body{
+            background-color: lightgrey;
+        }
+
+        #container{
+            width: 200px;
+            margin: 0px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 150px;
+        }
+
+        .link{
+            text-decoration: none;
+            color: black;
+        }
+
+        .item{
+            font-size: xx-large;
+            border: solid 5px black;
+            background-color: white;
+            color: black;
+            padding: 3px;
+            text-align: center;
+        }
+
+        .item:hover{
+            border: solid 5px red;
+            background-color: yellow;
+            color: red;
+            padding: 3px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="item">
+            <a class="link" id="begin" href="colorcrush.html">
+                <span>BEGIN</span>
+            </a>
+        </div>
+        <div class="item">
+            <a class="link" id="credits" href="credits.html">
+                <span>CREDITS</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
