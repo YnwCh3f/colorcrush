@@ -154,33 +154,11 @@
         let ii = i;
         let jj = j;
             if (tomb[ii][jj] == ocurrent && document.getElementById(ii+"x"+jj).getAttribute("class") != color){
-                if (ii > 0){
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                    setbg(ii-1, j, color);
-                }else{
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                }
-
-                if (jj > 0){
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                    setbg(i, jj-1, color);
-                }else{
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                }
-                
-                if (ii < 5){
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                    setbg(ii*1+1, j, color);
-                }else{
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                }
-
-                if (jj < 9){
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                    setbg(i, jj*1+1, color);
-                }else{
-                    document.getElementById(ii+"x"+jj).setAttribute("class",color);
-                }
+                document.getElementById(ii+"x"+jj).setAttribute("class",color);
+                if (ii > 0) setbg(ii-1, j, color)
+                if (jj > 0) setbg(i, jj-1, color);
+                if (ii < 5) setbg(ii*1+1, j, color);
+                if (jj < 9) setbg(i, jj*1+1, color);
             }else{
                 return;
             }
