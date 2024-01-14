@@ -2,7 +2,6 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Crush</title>
     <link rel="icon" type="image/x-icon" href="src/icon.png">
@@ -15,13 +14,12 @@
             background-size: cover;
         }
 
-
         #container{
             width: 720px;
             margin: auto;
             background-color: white;
             border-radius: 5px;
-            border: solid 50px black;
+            border: ridge 50px black;
             padding: 10px;
             background-color: lightcyan;
         }
@@ -29,6 +27,11 @@
         #scoreboard{
             width: fit-content;
             margin: 0px auto;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: dashed 10px;
+            border-image: conic-gradient( red, yellow, green, orange, blue, red) 50;
         }
 
         .none{
@@ -47,7 +50,7 @@
         }
 
         #buttons button{
-            width: 100%;
+            width: fit-content;
         }
 
     </style>
@@ -60,10 +63,13 @@
         let p;
         let current = null;
         let chosen = [];
+        let end;
 
-        function start(){
-            pontszam = 0;
-            cl = 0;
+        function start(p,c){
+            console.log("start")
+            pontszam = p;
+            cl = c;
+            end = false;
             document.getElementById("container").innerHTML = "";
             html = "";
             for (let i = 0; i < 6; i++){
@@ -79,33 +85,37 @@
         }
         
         function katt(i, j){
-            if(tomb[i][j] != 0 && tomb[i][j] == current){
-                p = 0;
-                let len = chosen.length-1;
-                if (len > 1){
-                    while (len >= 0){
-                        document.getElementById(chosen[len]).src = "src/box0.png";
-                        let index = chosen[len].split("x");
-                        tomb[index[0]][index[1]] = 0;
-                        len--;
+                if(tomb[i][j] != 0 && tomb[i][j] == current){
+                    p = 0;
+                    let len = chosen.length-1;
+                    if (len > 1){
+                        while (len >= 0){
+                            document.getElementById(chosen[len]).src = "src/box0.png";
+                            let index = chosen[len].split("x");
+                            tomb[index[0]][index[1]] = 0;
+                            len--;
+                        }
+                        pontszam += chosen.length;
+                    }else{
+                        while (len >= 0){
+                            document.getElementById(chosen[len]).setAttribute("class", "red");
+                            len--;
+                        }
                     }
-                    pontszam += chosen.length;
-                }else{
-                    while (len >= 0){
-                        document.getElementById(chosen[len]).setAttribute("class", "red");
-                        len--;
-                    }
+                    drop();
+                    fill();
+                    check();
+                    current = tomb[i][j];
+                    chosen = [];
+                    del(i, j);
+                    cl++;
                 }
-                drop();
-                fill();
-                current = tomb[i][j];
-                chosen = [];
-                del(i, j);
-                cl++;
-            }
 
-            document.getElementById("click").innerHTML = cl;
-            document.getElementById("score").innerHTML = pontszam;
+                document.getElementById("click").innerHTML = cl;
+                document.getElementById("score").innerHTML = pontszam;
+
+                if (end) start(pontszam, cl);
+
         }
 
     function over(i, j){
@@ -126,7 +136,6 @@
                 }
             }
     }
-
 
     function del(i, j){
         let ii = i;
@@ -175,19 +184,30 @@
         }
     }
 
+    function check(){
+        let n = 0;
+        for (let s = 0; s < 6; s++){
+            for (let o = 0; o < 10; o++){
+                current = tomb[s][o];
+                chosen = [];
+                del(s,o);
+                if (chosen.length > 2){
+                    n++;
+                }
+            }
+        }
+        if (n == 0) end = true;
+    }   
+
     </script>
 </head>
-<body onload="start();">
-    
-    <div onmouseleave="leave();" id="container">
-
-
-    </div>
+<body onload="start(0,0);">
+    <div onmouseleave="leave();" id="container"></div>
     <div id="scoreboard">
         <p>Score: <span id="score">0</span></p>
         <p>Clicks: <span id="click">0</span></p>
         <div id="buttons"> 
-            <input onclick="start();" type="button" value="NEW GAME">
+            <input onclick="start(0,0);" type="button" value="NEW GAME">
             <a href="menu.html"><input type="button" value="MENU"></a>
         </div>
        
