@@ -1,0 +1,75 @@
+body{
+    background-color: lightgrey;
+    padding-top: 10px;
+    background-image: url("src/bg.jpg");
+    background-size: cover;
+}
+
+#container{
+    width: 720px;
+    background-color: white;
+    border-radius: 5px;
+    border: ridge 50px black;
+    background-color: lightcyan;
+    line-height: 0px;
+    margin: 0px auto;
+}
+
+#scoreboard{
+    width: 100px;
+    height: 432px;
+    background-color: lightcyan;
+    color: black;
+    border-top: ridge 30px black;
+    border-bottom: ridge 30px black;
+    border-left: ridge 30px black;
+    float: left;
+    margin-top: 20px;
+    margin-left: 221px;
+    text-align: center;
+}
+
+.none{
+    background-color: none;
+}
+
+.red{
+    background-color: red;
+}
+
+#buttons{
+    width: 100px;
+    height: 432px;
+    background-color: lightcyan;
+    color: black;
+    border-top: ridge 30px black;
+    border-bottom: ridge 30px black;
+    border-right: ridge 30px black;
+    float: right;
+    margin-top: 20px;
+    margin-right: 221px;
+    text-align: center;
+}
+
+
+
+#timer{
+    border-left: ridge 30px black;
+    border-right: ridge 30px black;
+    border-top: ridge 30px black;
+    background-color: lightcyan;
+    color: black;
+    width: 720px;
+    text-align: center;
+    font-size: large;
+    font-family: fantasy;
+    margin: 0px auto;
+    padding: 5px;
+}
+
+.ablak{
+    border: 10px ridge black;
+    background-color: lightcyan;
+    text-align: center;
+}
+   

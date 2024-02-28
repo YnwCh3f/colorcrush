@@ -5,213 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Crush</title>
     <link rel="icon" type="image/x-icon" href="src/icon.png">
-    <style>
-
-        body{
-            background-color: lightgrey;
-            padding-top: 10px;
-            background-image: url("src/bg.jpg");
-            background-size: cover;
-        }
-
-        #container{
-            width: 720px;
-            margin: auto;
-            background-color: white;
-            border-radius: 5px;
-            border: ridge 50px black;
-            padding: 10px;
-            background-color: lightcyan;
-        }
-        
-        #scoreboard{
-            width: fit-content;
-            margin: 0px auto;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            border: dashed 10px;
-            border-image: conic-gradient( red, yellow, green, orange, blue, red) 50;
-        }
-
-        .none{
-            background-color: none;
-        }
-
-        .red{
-            background-color: red;
-        }
-
-        #buttons{
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 50px;
-        }
-
-        #buttons button{
-            width: fit-content;
-        }
-
-    </style>
+    <link rel="stylesheet" href="colorcrush.css">
+    <script src="colorcrush.js"></script>
     <script>
-
-        let pontszam;
-        let cl;
-        let tomb = [];
-        let html = "";
-        let p;
-        let current = null;
-        let chosen = [];
-        let end;
-
-        function start(p,c){
-            console.log("start")
-            pontszam = p;
-            cl = c;
-            end = false;
-            document.getElementById("container").innerHTML = "";
-            html = "";
-            for (let i = 0; i < 6; i++){
-                tomb[i] = [];
-                for (let j = 0; j < 10; j++){
-                    tomb[i][j] = Math.floor(Math.random()*5+1);
-                    html += "<img class='none' id='"+i+"x"+j+"' onmouseover='over(\""+i+"\",\""+j+"\")' onclick='katt(\""+i+"\",\""+j+"\");' src='src/box"+tomb[i][j]+".png'>";
-                }
-            }
-            document.getElementById("container").innerHTML = html;
-            document.getElementById("click").innerHTML = cl;
-            document.getElementById("score").innerHTML = pontszam;
-        }
-        
-        function katt(i, j){
-                if(tomb[i][j] != 0 && tomb[i][j] == current){
-                    p = 0;
-                    let len = chosen.length-1;
-                    if (len > 1){
-                        while (len >= 0){
-                            document.getElementById(chosen[len]).src = "src/box0.png";
-                            let index = chosen[len].split("x");
-                            tomb[index[0]][index[1]] = 0;
-                            len--;
-                        }
-                        pontszam += chosen.length;
-                    }else{
-                        while (len >= 0){
-                            document.getElementById(chosen[len]).setAttribute("class", "red");
-                            len--;
-                        }
-                    }
-                    drop();
-                    fill();
-                    check();
-                    current = tomb[i][j];
-                    chosen = [];
-                    del(i, j);
-                    cl++;
-                }
-
-                document.getElementById("click").innerHTML = cl;
-                document.getElementById("score").innerHTML = pontszam;
-
-                if (end) start(pontszam, cl);
-
-        }
-
-    function over(i, j){
-            current = tomb[i][j];
-            chosen = [];
-            for (let ii = 0; ii < 6; ii++){
-                for (let jj = 0; jj < 10; jj++){
-                    if (document.getElementById(ii+"x"+jj).getAttribute("class") == "red"  && tomb[ii][jj] != current) document.getElementById(ii+"x"+jj).setAttribute("class", "none");
-                }
-            }
-            del(i, j);
-    }
-
-    function leave(){
-        for (let ii = 0; ii < 6; ii++){
-                for (let jj = 0; jj < 10; jj++){
-                    if (document.getElementById(ii+"x"+jj).getAttribute("class") == "red") document.getElementById(ii+"x"+jj).setAttribute("class","none");
-                }
-            }
-    }
-
-    function del(i, j){
-        let ii = i;
-        let jj = j;
-            if (tomb[ii][jj] == current && !chosen.includes(i+"x"+j)){
-                chosen.push(i+"x"+j);
-                if (ii > 0) del(ii-1, j)
-                if (jj > 0) del(i, jj-1);
-                if (ii < 5) del(ii*1+1, j);
-                if (jj < 9) del(i, jj*1+1);
-            }else{
-                return;
-            }
-    }
-
-    function drop(){
-            for (let i = 5; i >= 0; i--){
-                for (let j = 0; j < 10; j++){
-                   let k = 0;
-                   let x = i;
-                   if(tomb[x][j] == 0){
-                        if (x != 0){
-                            while(tomb[x][j] == 0 && x > 0){
-                                x--;
-                                k++;  
-                            }
-                        }
-                        tomb[i][j] = tomb[i-k][j];
-                        document.getElementById(i+"x"+j).src = "src/box"+tomb[i-k][j]+".png";
-                        tomb[i-k][j] = 0;
-                        document.getElementById((i-k)+"x"+j).src = "src/box0.png";
-                   }
-                }
-            }
-        }
-
-    function fill(){
-        for (let i = 5; i >= 0; i--){
-            for (let j = 0; j < 10; j++){
-                if (tomb[i][j] == 0){ 
-                    let v = Math.floor(Math.random()*5+1);
-                    tomb[i][j] = v;
-                    document.getElementById(i+"x"+j).src = "src/box"+v+".png";
-                }
-            }
+    let html = "";
+    let tomb = [];
+    function start(){
+        for (let i = 0; i < 6; i++){ tomb[i] = []; for (let j = 0; j < 10; j++){
+            tomb[i][j] = 0;
+            html += "<img class='none' id='"+i+"x"+j+"' onmouseover='over(\""+i+"\",\""+j+"\")' onclick='katt(\""+i+"\",\""+j+"\");' src='src/box"+tomb[i][j]+".png'>";
         }
     }
-
-    function check(){
-        let n = 0;
-        for (let s = 0; s < 6; s++){
-            for (let o = 0; o < 10; o++){
-                current = tomb[s][o];
-                chosen = [];
-                del(s,o);
-                if (chosen.length > 2){
-                    n++;
-                }
-            }
-        }
-        if (n == 0) end = true;
-    }   
-
+    document.getElementById("container").innerHTML = html;
+    }
+    
     </script>
 </head>
-<body onload="start(0,0);">
-    <div onmouseleave="leave();" id="container"></div>
-    <div id="scoreboard">
-        <p>Score: <span id="score">0</span></p>
-        <p>Clicks: <span id="click">0</span></p>
-        <div id="buttons"> 
-            <input onclick="start(0,0);" type="button" value="NEW GAME">
-            <a href="menu.html"><input type="button" value="MENU"></a>
+<body onload="start(0,0,10,true);">
+        <div id="timer">&nbsp;</div>
+        <div id="scoreboard">
+            <p>Score: <span id="score">0</span></p>
+            <p>Clicks: <span id="click">0</span></p>
         </div>
-       
-    </div>
-    
+        <div id="buttons"> 
+            <p><input id="new" onclick="start(0,0,10,true);" type="button" value="NEW GAME"></p>
+            <p><a href="menu.html"><input type="button" value="MENU"></a></p>
+        </div>
+        <div onmouseleave="leave();" id="container"></div>
 </body>
 </html>
