@@ -157,7 +157,7 @@ function createDialog(){
     ablak.innerHTML += "S/C: <span id='sd'></span><br>";
     let gomb = document.createElement("input");
     gomb.setAttribute("type", "button");
-    gomb.setAttribute("onclick", "start("+0+","+0+","+10+",true)");
+    gomb.setAttribute("onclick", "start("+0+","+0+","+120+",true)");
     gomb.setAttribute("value", "NEW GAME");
     gomb.addEventListener("click", e => ablak.close());
     ablak.appendChild(gomb);
